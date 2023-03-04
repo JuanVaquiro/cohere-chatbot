@@ -8,11 +8,16 @@ type Message = {
 }
 
 const ANSWERS = {
-  default: (
+  undefined: (
     <p>
-      Losiento son una IA progrmada para
-      contestas a ciertas preguntas reformula tu pregunta
-      por favaor
+      Lo siento son una IA progrmada para respondes preguntas de mantenimiento de impresoras.
+      No tengo información para respuester a esto.
+      Te recomiendo hacer preguntas más específicas para que pueda ayudarte mejor.
+    </p>
+  ),
+  bot: (
+    <p>
+      ¡Hola! Soy ChatFAQs-Support, un chatbot diseñado para interactuar contigo y responder a tus preguntas. No soy una persona real, soy un programa de ordenador. Puedo ayudarte a responder preguntas de mantenimiento de impresora, proporcionarte información. Mi nivel de inteligencia se basa en mi programación y la base de datos que tengo disponible. En resumen, mi función es interactuar y ayudarte en lo que necesites. ¿En qué puedo ayudarte hoy?
     </p>
   ),
   Biologia: (
@@ -34,7 +39,7 @@ function App() {
     {
       id: String(Date.now()),
       type: 'bot',
-      text: 'hola! Soy un Bot preprado para atender algunas de tus preguntas para ayudarte a darte consejos para el mantenimiento de una impresora.'
+      text: 'hola! Soy un Bot preprado para atender algunas de tus preguntas para ayudarte a darte consejos para el mantenimiento a una impresora.'
     }
   ])
   const [question, setQuestion] = useState<string>('')
@@ -74,7 +79,7 @@ function App() {
       messages.concat({
         id: String(Date.now()),
         type: 'bot',
-        text: ANSWERS[classifications[0].prediction as keyof typeof ANSWERS] || ANSWERS['default']
+        text: ANSWERS[classifications[0].prediction as keyof typeof ANSWERS] || ANSWERS['undefined']
       }),
     )
 
