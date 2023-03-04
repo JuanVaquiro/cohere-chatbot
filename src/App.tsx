@@ -2,35 +2,52 @@ import { useEffect, useRef, useState } from 'react'
 import { EXAMPLES, API_KEY } from './const'
 
 type Message = {
-  id: String;
+  id: string;
   type: 'bot' | 'user';
-  text: string;
+  text: React.ReactNode;
+}
+
+const ANSWERS = {
+  default: (
+    <p>
+      Losiento son una IA progrmada para
+      contestas a ciertas preguntas reformula tu pregunta
+      por favaor
+    </p>
+  ),
+  Biologia: (
+    <p>
+      esto es un pregunta de biologia.
+      y respondera a ella con lo siguiente bla:
+    </p>
+  ),
+  Español: (
+    <p>
+      esto es un pregunta de Español.
+      que lengua lengjaue bien echo mano
+    </p>
+  )
 }
 
 function App() {
   const [messages, setMessages] = useState<Message[]>([
     {
-      id: '1',
+      id: String(Date.now()),
       type: 'bot',
-      text: 'Hola, soy un bot'
-    },
-    {
-      id: '2',
-      type: 'user',
-      text: 'Hola, soy un user'
-    },
+      text: 'hola! Soy un Bot preprado para atender algunas de tus preguntas para ayudarte a darte consejos para el mantenimiento de una impresora.'
+    }
   ])
   const [question, setQuestion] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
   const container = useRef<HTMLDivElement>(null)
 
-  const handleSubmit = async (event: React.FocusEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
     if (loading) return
 
     setLoading(true)
 
-    setMessages(messages =>
+    setMessages((messages) =>
       messages.concat({
         id: String(Date.now()),
         type: 'user',
@@ -39,6 +56,7 @@ function App() {
     )
 
     setQuestion('')
+
     const { classifications } = await fetch('https://api.cohere.ai/classify', {
       method: 'POST',
       headers: {
@@ -50,16 +68,15 @@ function App() {
         inputs: [question],
         examples: EXAMPLES
       })
-    }).then(res => res.json())
+    }).then((res) => res.json())
 
-    setMessages(messages =>
+    setMessages((messages) =>
       messages.concat({
         id: String(Date.now()),
         type: 'bot',
-        text: classifications[0].prediction
+        text: ANSWERS[classifications[0].prediction as keyof typeof ANSWERS] || ANSWERS['default']
       }),
     )
-
 
     setLoading(false)
     console.log(classifications)
@@ -69,17 +86,16 @@ function App() {
     container.current?.scrollTo(0, container.current.scrollHeight)
   }, [messages])
 
-
   return (
-    <main className="P-4">
+    <main className='P-4'>
       <div className='flex flex-col gap-4 m-auto max-w-lg border border-gray-400 p-4 rounded-md'>
         <div ref={container} className='flex flex-col gap-4 h-[318px] overflow-y-auto'>
           {
-            messages.map(message => (
+            messages.map((message) => (
               <div
                 key={message.id}
                 className={
-                  `max-w-[80%] p-4 rounded-3xl bg-slate-500 text-white 
+                  `max-w-[80%] p-4 rounded-3xl text-white 
                   ${message.type === 'bot'
                     ? 'bg-slate-500 text-left self-start rounded-bl-none'
                     : 'bg-blue-500 text-right self-end rounded-br-none'
@@ -97,7 +113,7 @@ function App() {
             placeholder='Envianos tus preguntas'
             name='question'
             value={question}
-            onChange={event => setQuestion(event.target.value)}
+            onChange={(event) => setQuestion(event.target.value)}
           />
           <button
             type='submit'
