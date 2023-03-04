@@ -8,7 +8,7 @@ type Message = {
 }
 
 const ANSWERS = {
-  undefined: (
+  indefinido: (
     <p>
       Lo siento son una IA progrmada para respondes preguntas de mantenimiento de impresoras.
       No tengo información para respuester a esto.
@@ -79,7 +79,7 @@ function App() {
       messages.concat({
         id: String(Date.now()),
         type: 'bot',
-        text: ANSWERS[classifications[0].prediction as keyof typeof ANSWERS] || ANSWERS['undefined']
+        text: ANSWERS[classifications[0].prediction as keyof typeof ANSWERS] || ANSWERS['indefinido']
       }),
     )
 
