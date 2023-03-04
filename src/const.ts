@@ -55,6 +55,6 @@ export const EXAMPLES = [
   { "text": "juego, interaccion", "label": "indefinido" },
   { "text": "hablame de otras cosas", "label": "indefinido" },
   { "text": "politica, ciencias", "label": "indefinido" },
-  { "text": "religion, psicologia", "label": "indefinido" },
+  { "text": "crees en religion, psicologia, vida,", "label": "indefinido" },
   { "text": "entretenimiento, futbotll, predicciones", "label": "indefinido" },
 ]  

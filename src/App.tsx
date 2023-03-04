@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
-import { EXAMPLES, API_KEY } from './const'
+import React, { useEffect, useRef, useState } from 'react'
 
 type Message = {
   id: string;
@@ -7,34 +6,16 @@ type Message = {
   text: React.ReactNode;
 }
 
-const ANSWERS = {
-  indefinido: (
-    <p>
-      Lo siento son una IA programada para responder preguntas de mantenimiento de impresoras.
-      No tengo información para responder a esto.
-      Te recomiendo hacer preguntas más específicas para que pueda ayudarte mejor.
-    </p>
-  ),
-  bot: (
-    <p>
-      ¡Hola! Soy ChatFAQs-Support, un chatbot diseñado para interactuar contigo y responder a tus preguntas. No soy una persona real, soy un programa de ordenador. Puedo ayudarte a responder preguntas de mantenimiento de impresora, proporcionarte información. Mi nivel de inteligencia se basa en mi programación y la base de datos que tengo disponible. En resumen, mi función es interactuar y ayudarte en lo que necesites. ¿En qué puedo ayudarte hoy?
-    </p>
-  ),
-  Biologia: (
-    <p>
-      esto es un pregunta de biologia.
-      y respondera a ella con lo siguiente bla:
-    </p>
-  ),
-  Español: (
-    <p>
-      esto es un pregunta de Español.
-      que lengua lengjaue bien echo mano
-    </p>
-  )
+type Props = {
+  apiKey: string;
+  examples: {
+    text: string;
+    label: string;
+  }[];
+  answers: Record<string, React.ReactNode>
 }
 
-function App() {
+function Chat({ apiKey, examples, answers }: Props) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: String(Date.now()),
@@ -65,13 +46,13 @@ function App() {
     const { classifications } = await fetch('https://api.cohere.ai/classify', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${API_KEY}`,
+        Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         model: 'large',
         inputs: [question],
-        examples: EXAMPLES
+        examples: examples
       })
     }).then((res) => res.json())
 
@@ -79,7 +60,7 @@ function App() {
       messages.concat({
         id: String(Date.now()),
         type: 'bot',
-        text: ANSWERS[classifications[0].prediction as keyof typeof ANSWERS] || ANSWERS['indefinido']
+        text: answers[classifications[0].prediction as keyof typeof answers] || answers['indefinido']
       }),
     )
 
@@ -136,4 +117,4 @@ function App() {
   )
 }
 
-export default App
+export default Chat
