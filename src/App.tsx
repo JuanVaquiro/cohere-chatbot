@@ -10,8 +10,8 @@ type Message = {
 const ANSWERS = {
   indefinido: (
     <p>
-      Lo siento son una IA progrmada para respondes preguntas de mantenimiento de impresoras.
-      No tengo información para respuester a esto.
+      Lo siento son una IA programada para responder preguntas de mantenimiento de impresoras.
+      No tengo información para responder a esto.
       Te recomiendo hacer preguntas más específicas para que pueda ayudarte mejor.
     </p>
   ),
