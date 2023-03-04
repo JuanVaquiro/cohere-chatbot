@@ -47,6 +47,7 @@ export const EXAMPLES = [
   { "text": "¿Cuál es tu edad?", "label": "bot" },
   { "text": "¿Puedes contarme un chiste?", "label": "bot" },
   { "text": "¿Que preguntas soportas?", "label": "bot" },
+  { "text": "hola", "label": "bot" },
   { "text": " ", "label": "indefinido" },
   { "text": "otras cosas", "label": "indefinido" },
   { "text": "tecnologias", "label": "indefinido" },

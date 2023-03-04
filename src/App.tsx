@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 type Message = {
   id: string;
@@ -12,17 +12,21 @@ type Props = {
     text: string;
     label: string;
   }[];
-  answers: Record<string, React.ReactNode>
+  answers: Record<string, React.ReactNode>;
+  initialMessage: string
 }
 
-function Chat({ apiKey, examples, answers }: Props) {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: String(Date.now()),
-      type: 'bot',
-      text: 'hola! Soy un Bot preprado para atender algunas de tus preguntas para ayudarte a darte consejos para el mantenimiento a una impresora.'
-    }
-  ])
+function Chat({ apiKey, examples, answers, initialMessage }: Props) {
+  const [messages, setMessages] = useState<Message[]>(() =>
+    initialMessage ? [
+      {
+        id: String(Date.now()),
+        type: 'bot',
+        text: initialMessage
+      },
+    ]
+      : [],
+  )
   const [question, setQuestion] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
   const container = useRef<HTMLDivElement>(null)
@@ -109,7 +113,7 @@ function Chat({ apiKey, examples, answers }: Props) {
               ${loading ? 'bg-blue-300' : 'bg-blue-500'}
             `}
           >
-            Enviar
+            ↩
           </button>
         </form>
       </div>
